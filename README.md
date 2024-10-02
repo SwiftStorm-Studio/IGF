@@ -6,9 +6,8 @@ IGF (Inventory GUI Framework) is a lightweight library for creating intuitive an
 
 ## Features
 - Easy-to-use API for creating Inventory GUIs.
-- Flexible inventory layouts and interactions.
-- Support for different event handlers (click, drag, close).
-- Built-in utility functions for managing complex GUIs.
+- Support for different event handlers (click, open, close).
+- Built-in utility functions for managing complex GUIs.(I'll implement this in the future)
 
 ## Getting Started
 
