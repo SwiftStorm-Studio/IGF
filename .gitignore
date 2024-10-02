@@ -1,0 +1,8 @@
+local.properties
+.gradle
+build
+.kotlin
+.idea
+*.iml
+
+src/test/*
