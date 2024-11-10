@@ -16,14 +16,8 @@ import org.slf4j.LoggerFactory
  * It manages global listeners, event handling, and NamespacedKey initialization.
  */
 object IGF : Listener {
-    /**
-     * The NamespacedKey used for identifying GUI-specific data.
-     */
-    lateinit var key: NamespacedKey
-        private set
-
     val logger: Logger = LoggerFactory.getLogger(IGF::class.java.simpleName)
-    private const val ID = "igf"
+    lateinit var ID: String
     private var globalListener: GUIListener = NoOpListener
 
     /**
@@ -31,9 +25,25 @@ object IGF : Listener {
      *
      * @param plugin The JavaPlugin instance to initialize with.
      */
-    fun init(plugin: JavaPlugin) {
-        key = NamespacedKey(plugin, ID)
+    fun init(plugin: JavaPlugin, nameSpace: String) {
+        ID = nameSpace
         plugin.server.pluginManager.registerEvents(this, plugin)
+    }
+
+    /**
+     * Creates a new NamespacedKey with the given name parts.
+     * The key is created using the initialized plugin ID.
+     *
+     * @param name The name parts to create the key with.
+     * @return The created NamespacedKey.
+     * @throws IllegalStateException if IGF has not been initialized yet.
+     * @see NamespacedKey
+     */
+    fun createKey(vararg name: String): NamespacedKey {
+        if (!this::ID.isInitialized) {
+            throw IllegalStateException("IGF has not been initialized yet.")
+        }
+        return NamespacedKey(ID, name.joinToString(":"))
     }
 
     /**

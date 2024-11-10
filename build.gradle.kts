@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "net.rk4z"
-version = "1.0.0"
+version = "1.0.1"
 
 val localProperties = Properties().apply {
     load(FileInputStream(rootProject.file("local.properties")))

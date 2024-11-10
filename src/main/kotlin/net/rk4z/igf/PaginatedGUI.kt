@@ -1,6 +1,6 @@
 package net.rk4z.igf
 
-import net.rk4z.igf.IGF.key
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.persistence.PersistentDataType
@@ -10,6 +10,9 @@ import org.bukkit.persistence.PersistentDataType
  * It allows dynamic page navigation, slot management, and customization using PersistentDataContainer.
  *
  * @param player The player who will view the GUI.
+ * @see InventoryGUI
+ * @since 1.0.0
+ * @author Lars
  */
 class PaginatedGUI(
     player: Player
@@ -23,8 +26,9 @@ class PaginatedGUI(
 
     private var prevPageButton: Button? = null
     private var nextPageButton: Button? = null
-    private var prevCustomID: String? = null
-    private var nextCustomID: String? = null
+    private var prevValue: String? = null
+    private var nextValue: String? = null
+    private val pageChangeKey: NamespacedKey = IGF.createKey("paginated", "pageChange", "type")
 
     /**
      * Builds the paginated GUI.
@@ -111,21 +115,10 @@ class PaginatedGUI(
      * @throws IllegalStateException If custom IDs are not set for page navigation.
      */
     fun setPageButtons(prevButton: Button, nextButton: Button): PaginatedGUI {
+        this.prevValue = prevButton.keyValue
+        this.nextValue = nextButton.keyValue
         prevPageButton = prevButton
         nextPageButton = nextButton
-        return this
-    }
-
-    /**
-     * Sets the custom IDs for page navigation buttons.
-     * @param prevCustomID The custom ID for the previous page button.
-     * @param nextCustomID The custom ID for the next page button.
-     *
-     * @return This [PaginatedGUI] instance.
-     */
-    fun setPageButtonsCustomID(prevCustomID: String, nextCustomID: String): PaginatedGUI {
-        this.prevCustomID = prevCustomID
-        this.nextCustomID = nextCustomID
         return this
     }
 
@@ -195,13 +188,12 @@ class PaginatedGUI(
     fun handlePageNavigation(event: InventoryClickEvent) {
         val clickedItem = event.currentItem ?: return
         val meta = clickedItem.itemMeta ?: return
-        val action = meta.persistentDataContainer.get(key, PersistentDataType.STRING) ?: return
+        val container = meta.persistentDataContainer
+        val key = container.get(pageChangeKey, PersistentDataType.STRING) ?: return
 
-        if (prevCustomID == null || nextCustomID == null) throw IllegalStateException("Custom IDs must be set for page navigation")
-
-        when (action) {
-            prevCustomID -> prevPage()
-            nextCustomID -> nextPage()
+        when (key) {
+            prevValue -> prevPage()
+            nextValue -> nextPage()
         }
     }
 }
