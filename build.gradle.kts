@@ -10,8 +10,8 @@ plugins {
     `maven-publish`
 }
 
-group = "net.rk4z"
-version = "1.0.1"
+group = "net.ririfa"
+version = "1.0.2"
 
 val localProperties = Properties().apply {
     load(FileInputStream(rootProject.file("local.properties")))
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
 }
 
 java {

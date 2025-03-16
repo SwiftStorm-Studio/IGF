@@ -4,8 +4,10 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
+import org.bukkit.inventory.ItemStack
 
 /**
  * Represents a base class for creating custom inventory GUIs in Minecraft.
@@ -22,9 +24,10 @@ abstract class InventoryGUI(
     private var listener: GUIListener? = null
     private var title: Component? = null
     private var size: Int? = null
+    private var type: InventoryType? = null
     private var background: Material? = null
     private var shouldCallGlobalListener = false
-    protected var items: List<Button> = emptyList()
+    protected var items: List<Button<*>> = emptyList()
         private set
 
     companion object {
@@ -72,7 +75,7 @@ abstract class InventoryGUI(
          * @return The list of [Button]s.
          */
         @JvmStatic
-        fun getItems(gui: InventoryGUI): List<Button> {
+        fun getItems(gui: InventoryGUI): List<Button<*>> {
             return gui.items
         }
 
@@ -143,11 +146,20 @@ abstract class InventoryGUI(
      * @throws IllegalStateException If title or size is not set.
      */
     protected fun create() {
-        if (title == null || size == null) {
+        if (title == null) {
             throw IllegalStateException("Title and size must be set")
         }
 
-        igfInventory = player.server.createInventory(this, size!!, title!!)
+        size?.let { size ->
+            igfInventory = player.server.createInventory(this, size, title!!)
+        }
+        type?.let { type ->
+            igfInventory = player.server.createInventory(this, type, title!!)
+        }
+
+        if (igfInventory == null) {
+            throw IllegalStateException("Failed to create inventory. Did you size? ('setSize' or 'setType' must be called before 'build()')")
+        }
     }
 
     /**
@@ -203,7 +215,7 @@ abstract class InventoryGUI(
      * @param items The list of [Button]s to add.
      * @return The current [InventoryGUI] instance for chaining.
      */
-    fun setItems(items: List<Button>): InventoryGUI {
+    fun setItems(items: List<Button<*>>): InventoryGUI {
         this.items = items
         return this
     }
@@ -213,7 +225,7 @@ abstract class InventoryGUI(
      * @param button The [Button] to add.
      * @return The current [InventoryGUI] instance for chaining.
      */
-    fun addItem(button: Button): InventoryGUI {
+    fun addItem(button: Button<*>): InventoryGUI {
         this.items += button
         return this
     }
@@ -272,6 +284,10 @@ abstract class InventoryGUI(
     fun setSize(size: Int): InventoryGUI {
         this.size = size
         return this
+    }
+
+    fun setSize(size: InventoryType) {
+        this.type = size
     }
 
     /**

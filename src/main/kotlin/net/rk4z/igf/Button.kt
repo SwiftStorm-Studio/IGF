@@ -8,22 +8,24 @@ import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
 
-data class Button(
+data class Button<T>(
     val slot: Int,
     val material: Material,
     val name: Component,
     val key: NamespacedKey? = null,
-    val keyValue: String? = null,
+    val keyValue: T? = null,
+    val dataType: PersistentDataType<T, T>? = null
 ) {
     fun toItemStack(): ItemStack {
-        return material.toItemStack(name, key, keyValue)
+        return material.toItemStack(name, key, keyValue, dataType)
     }
 }
 
-fun Material.toItemStack(
+fun <T> Material.toItemStack(
     name: Component? = null,
     key: NamespacedKey? = null,
-    value: String? = null,
+    value: T? = null,
+    dataType: PersistentDataType<T, T>? = null
 ): ItemStack {
     val itemStack = ItemStack(this)
     val meta: ItemMeta? = itemStack.itemMeta
@@ -31,8 +33,24 @@ fun Material.toItemStack(
     if (name != null) {
         meta?.displayName(name)
     }
-    if (value != null && key != null) {
-        meta?.persistentDataContainer?.set(key, PersistentDataType.STRING, value)
+    if (value != null && key != null && dataType != null) {
+        meta?.persistentDataContainer?.set(key, dataType, value)
+    }
+    if (meta != null) {
+        itemStack.itemMeta = meta
+    }
+
+    return itemStack
+}
+
+fun Material.toItemStack(
+    name: Component? = null
+): ItemStack {
+    val itemStack = ItemStack(this)
+    val meta: ItemMeta? = itemStack.itemMeta
+
+    if (name != null) {
+        meta?.displayName(name)
     }
     if (meta != null) {
         itemStack.itemMeta = meta

@@ -43,7 +43,7 @@ object IGF : Listener {
         if (!this::ID.isInitialized) {
             throw IllegalStateException("IGF has not been initialized yet.")
         }
-        return NamespacedKey(ID, name.joinToString(":"))
+        return NamespacedKey(ID, name.joinToString("."))
     }
 
     /**
