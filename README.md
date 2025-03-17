@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.rk4z:ririfa:{version}") // Replace {version} with the latest version
+    implementation("net.ririfa:igf:{version}") // Replace {version} with the latest version
 }
 ```
 
