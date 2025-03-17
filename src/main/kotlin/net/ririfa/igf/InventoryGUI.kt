@@ -1,8 +1,9 @@
-package net.rk4z.igf
+package net.ririfa.igf
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
@@ -26,7 +27,7 @@ abstract class InventoryGUI(
     private var type: InventoryType? = null
     private var background: Material? = null
     private var shouldCallGlobalListener = false
-    protected var items: List<Button<*>> = emptyList()
+    protected var items: List<Button> = emptyList()
         private set
 
     companion object {
@@ -74,7 +75,7 @@ abstract class InventoryGUI(
          * @return The list of [Button]s.
          */
         @JvmStatic
-        fun getItems(gui: InventoryGUI): List<Button<*>> {
+        fun getItems(gui: InventoryGUI): List<Button> {
             return gui.items
         }
 
@@ -139,25 +140,26 @@ abstract class InventoryGUI(
     }
 
     /**
-     * Creates the inventory based on the title and size set in this class.
+     * Creates the inventory based on the title and size/type set in this class.
      * This method must be called before attempting to use the inventory.
      *
-     * @throws IllegalStateException If title or size is not set.
+     * @throws IllegalStateException If neither `size` nor `type` is set, or if both are set.
      */
     protected fun create() {
-        if (title == null) {
-            throw IllegalStateException("Title and size must be set")
-        }
+        if (title == null) throw IllegalStateException("Title must be set before creating the inventory.")
 
-        size?.let { size ->
-            igfInventory = player.server.createInventory(this, size, title!!)
-        }
-        type?.let { type ->
-            igfInventory = player.server.createInventory(this, type, title!!)
-        }
+        when {
+            size != null && type != null ->
+                throw IllegalStateException("Cannot set both 'size' and 'type'. Use only one.")
 
-        if (igfInventory == null) {
-            throw IllegalStateException("Failed to create inventory. Did you size? ('setSize' or 'setType' must be called before 'build()')")
+            size == null && type == null ->
+                throw IllegalStateException("Either 'size' or 'type' must be set before creating the inventory.")
+
+            else -> igfInventory = when {
+                size != null -> player.server.createInventory(this, size!!, title!!)
+                type != null -> player.server.createInventory(this, type!!, title!!)
+                else -> throw IllegalStateException("Bro, how did you get here? This shouldn't happen. X")
+            }
         }
     }
 
@@ -197,6 +199,10 @@ abstract class InventoryGUI(
         return background
     }
 
+    fun getItems(): List<Button> {
+        return items
+    }
+
     /**
      * Sets the background material for the inventory GUI.
      * @param background The [Material] to use as the background.
@@ -214,7 +220,7 @@ abstract class InventoryGUI(
      * @param items The list of [Button]s to add.
      * @return The current [InventoryGUI] instance for chaining.
      */
-    fun setItems(items: List<Button<*>>): InventoryGUI {
+    fun setItems(items: List<Button>): InventoryGUI {
         this.items = items
         return this
     }
@@ -224,7 +230,7 @@ abstract class InventoryGUI(
      * @param button The [Button] to add.
      * @return The current [InventoryGUI] instance for chaining.
      */
-    fun addItem(button: Button<*>): InventoryGUI {
+    fun addItem(button: Button): InventoryGUI {
         this.items += button
         return this
     }
@@ -285,6 +291,11 @@ abstract class InventoryGUI(
         return this
     }
 
+    /**
+     * Sets the size of the inventory GUI using an [InventoryType].
+     * @param size The [InventoryType] representing the size of the inventory.
+     * @return The current [InventoryGUI] instance for chaining.
+     */
     fun setSize(size: InventoryType) {
         this.type = size
     }

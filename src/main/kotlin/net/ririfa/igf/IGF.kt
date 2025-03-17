@@ -1,6 +1,7 @@
-package net.rk4z.igf
+package net.ririfa.igf
 
 import org.bukkit.NamespacedKey
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory
  * Main handler for the InventoryGUI framework (IGF).
  * It manages global listeners, event handling, and NamespacedKey initialization.
  */
+@Suppress("unused")
 object IGF : Listener {
     val logger: Logger = LoggerFactory.getLogger(IGF::class.java.simpleName)
     lateinit var ID: String
@@ -61,29 +63,17 @@ object IGF : Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onInventoryClick(event: InventoryClickEvent) {
-        val item = event.currentItem ?: return
-        val holder = event.clickedInventory?.holder
+        val holder = event.clickedInventory?.holder as? InventoryGUI ?: return
+        val button = holder.getItems().find { it.slot == event.slot } ?: return
 
-        // Check if the clicked inventory holder is of type InventoryGUI
-        if (holder !is InventoryGUI) return
+        event.isCancelled = true
 
-        // Cancel the event if the clicked item is a background item
-        val background = holder.getBackgroundMaterial()
-        if (background != null && item.type == background) {
-            event.isCancelled = true
+        button.onClick?.run {
+            (event.whoClicked as? Player)?.let(this)
+            if (button.skipGUIListenerCall) return
         }
 
-        // Handle click events based on the type of GUI
-        if (holder is PaginatedGUI) {
-            // Handle page navigation
-            holder.handlePageNavigation(event)
-        }
-
-        // Delegate the event to the local or global listener
         holder.getListener()?.onInventoryClick(event, holder) ?: globalListener.onInventoryClick(event, holder)
-        if (holder.shouldCallGlobalListener()) {
-            globalListener.onInventoryClick(event, holder)
-        }
     }
 
     /**

@@ -15,8 +15,9 @@ IGF (Inventory GUI Framework) is a lightweight library for creating intuitive an
 To include IGF in your project, add the following dependency to your `pom.xml` if you're using Maven:
 
 ```xml
+
 <dependency>
-    <groupId>net.rk4z</groupId>
+    <groupId>net.ririfanet.ririfa</groupId>
     <artifactId>igf</artifactId>
     <version>{version}</version> <!-- Replace {version} with the latest version -->
 </dependency>
@@ -29,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.rk4z:igf:{version}' // Replace {version} with the latest version
+    implementation 'net.ririfa:igf:{version}' // Replace {version} with the latest version
 }
 ```
 
@@ -40,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.rk4z:igf:{version}") // Replace {version} with the latest version
+    implementation("net.ririfa:igf:{version}") // Replace {version} with the latest version
 }
 ```
 

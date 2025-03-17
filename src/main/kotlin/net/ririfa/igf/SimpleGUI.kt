@@ -1,4 +1,4 @@
-package net.rk4z.igf
+package net.ririfa.igf
 
 import org.bukkit.entity.Player
 
@@ -11,6 +11,7 @@ import org.bukkit.entity.Player
  * @since 1.0.0
  * @author Lars
  */
+@Suppress("unused")
 class SimpleGUI(
     player: Player
 ) : InventoryGUI(player) {
