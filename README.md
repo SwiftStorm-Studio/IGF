@@ -1,6 +1,6 @@
 # IGF - Inventory GUI Framework
 
-Latest version: ![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https://repo1.maven.org/maven2/net/rk4z/igf/maven-metadata.xml&style=plastic&logo=sonatype&label=Central&color=00FF87)
+Latest version: ![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https://repo1.maven.org/maven2/net/ririfa/igf/maven-metadata.xml&style=plastic&logo=sonatype&label=Central&color=00FF87)
 
 IGF (Inventory GUI Framework) is a lightweight library for creating intuitive and powerful Inventory GUIs in Minecraft plugins. It simplifies the process of building and managing custom GUI interfaces using the native Minecraft inventory system, making it ideal for developers who want to enhance their plugins with an interactive user experience.
 
@@ -15,9 +15,8 @@ IGF (Inventory GUI Framework) is a lightweight library for creating intuitive an
 To include IGF in your project, add the following dependency to your `pom.xml` if you're using Maven:
 
 ```xml
-
 <dependency>
-    <groupId>net.ririfanet.ririfa</groupId>
+    <groupId>net.ririfa</groupId>
     <artifactId>igf</artifactId>
     <version>{version}</version> <!-- Replace {version} with the latest version -->
 </dependency>
