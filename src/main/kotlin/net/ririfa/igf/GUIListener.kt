@@ -4,7 +4,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 
-@Deprecated("Use Button-based click handlers instead", ReplaceWith("'Use onClick in Button'"))
+@Deprecated("Use Button-based click handlers instead")
 interface GUIListener {
     fun onInventoryClick(event: InventoryClickEvent, gui: InventoryGUI) {}
     fun onInventoryClose(event: InventoryCloseEvent, gui: InventoryGUI) {}

@@ -1,9 +1,6 @@
 package net.ririfa.igf
 
-import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.persistence.PersistentDataType
 
 /**
  * A class that provides paginated inventory GUI functionality with improved item management.
@@ -12,7 +9,7 @@ import org.bukkit.persistence.PersistentDataType
  * @param player The player who will view the GUI.
  * @see InventoryGUI
  * @since 1.0.0
- * @author Lars
+ * @author RiriFa
  */
 @Suppress("unused")
 class PaginatedGUI(
@@ -28,10 +25,6 @@ class PaginatedGUI(
     private var prevPageButton: Button? = null
     private var nextPageButton: Button? = null
 
-    /**
-     * Builds the paginated GUI.
-     * This method should be overridden by subclasses to set up the layout and items.
-     */
     override fun build(): PaginatedGUI {
         create()
         displayItemsForPage()
@@ -78,8 +71,22 @@ class PaginatedGUI(
     }
 
     /**
-     * Displays the items for the current page in the inventory.
-     * Clears previous items and adds only the items that belong to the current page.
+     * Updates the inventory to display items for the current page.
+     *
+     * This method clears the existing inventory content, applies the background,
+     * and populates the inventory with items specific to the current page. It
+     * also sets up navigation buttons if applicable.
+     *
+     * The method performs the following actions:
+     * - Clears the inventory and applies a background.
+     * - If there are no items to display, the empty message button is set.
+     * - Items for the current page are added to the inventory based on
+     *   the defined slot positions.
+     * - Navigation buttons (previous/next) are added if the conditions
+     *   for navigation are met.
+     *
+     * Navigation buttons are only displayed when the respective conditions
+     * for their visibility (e.g., not on the first or last page) are met.
      */
     fun displayItemsForPage() {
         inventory.clear()

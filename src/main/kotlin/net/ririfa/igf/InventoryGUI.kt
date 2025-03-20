@@ -3,7 +3,6 @@ package net.ririfa.igf
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
@@ -15,8 +14,10 @@ import org.bukkit.inventory.InventoryHolder
  * listeners, and background materials for GUI customization.
  *
  * @param player The player viewing the GUI.
+ * @since 1.0.0
+ * @author RiriFa
  */
-@Suppress("unused")
+@Suppress("unused", "deprecation", "RedundantSuppression")
 abstract class InventoryGUI(
     protected val player: Player
 ) : InventoryHolder {
@@ -240,6 +241,7 @@ abstract class InventoryGUI(
      * @param listener The [GUIListener] instance to handle events.
      * @return The current [InventoryGUI] instance for chaining.
      */
+    @Deprecated("Use button's 'onClick' property instead.")
     fun setListener(listener: GUIListener): InventoryGUI {
         this.listener = listener
         return this

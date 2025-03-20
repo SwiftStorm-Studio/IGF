@@ -48,3 +48,6 @@ Hint: You can always find the latest version on [Maven Central](https://central.
 
 ### License
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
+### Usage
+I will write it up later

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  * @param player The player who will view the GUI.
  * @see InventoryGUI
  * @since 1.0.0
- * @author Lars
+ * @author RiriFa
  */
 @Suppress("unused")
 class SimpleGUI(

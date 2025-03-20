@@ -14,6 +14,8 @@ import org.bukkit.persistence.PersistentDataType
  * @param T The type of the value being stored.
  * @property dataType The PersistentDataType defining how the value is serialized and deserialized.
  * @property value The actual value to be stored or retrieved.
+ * @since 1.1.1
+ * @author RiriFa
  */
 data class DataWrapper<T>(
     val dataType: PersistentDataType<T, T>,
@@ -33,6 +35,8 @@ data class DataWrapper<T>(
  *                   The function takes the [Player] who clicked the button as a parameter.
  * @property skipGUIListenerCall A flag indicating whether to skip further GUI listener calls
  *                                after this button is clicked.
+ * @since 1.1.0
+ * @author RiriFa
  */
 data class Button(
     val slot: Int,
@@ -51,6 +55,8 @@ data class Button(
  * @param name An optional display name for the resulting ItemStack. If null, no name will be set.
  * @param data A map of NamespacedKey to DataWrapper, representing persistent data to attach to the ItemStack. Defaults to an empty map.
  * @return The created ItemStack with the specified properties applied.
+ * @since 1.1.0
+ * @author RiriFa
  */
 fun Material.toItemStack(
     name: Component? = null,
@@ -80,6 +86,8 @@ fun Material.toItemStack(
  * @param key The key associated with the data to retrieve.
  * @param dataType The data type of the value to retrieve.
  * @return The value of the specified type, or null if it doesn't exist.
+ * @since 1.1.0
+ * @author RiriFa
  */
 inline fun <reified T> ItemStack.getValue(
     key: NamespacedKey,
@@ -87,4 +95,3 @@ inline fun <reified T> ItemStack.getValue(
 ): T? where T : Any {
     return itemMeta?.persistentDataContainer?.get(key, dataType)
 }
-
