@@ -5,7 +5,7 @@ import java.io.FileInputStream
 import java.util.*
 
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.1.10"
     id("cl.franciscosolis.sonatype-central-upload") version "1.0.3"
     `maven-publish`
 }

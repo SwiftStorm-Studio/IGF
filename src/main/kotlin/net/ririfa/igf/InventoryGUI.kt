@@ -28,7 +28,8 @@ abstract class InventoryGUI(
     private var type: InventoryType? = null
     private var background: Material? = null
     private var shouldCallGlobalListener = false
-    protected var items: List<Button> = emptyList()
+
+    var items: List<Button> = emptyList()
         private set
 
     companion object {
@@ -198,10 +199,6 @@ abstract class InventoryGUI(
      */
     fun getBackgroundMaterial(): Material? {
         return background
-    }
-
-    fun getItems(): List<Button> {
-        return items
     }
 
     /**
