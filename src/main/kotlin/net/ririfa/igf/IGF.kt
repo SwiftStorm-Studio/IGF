@@ -69,7 +69,7 @@ object IGF : Listener {
         event.isCancelled = true
 
         button.onClick?.run {
-            (event.whoClicked as? Player)?.let(this)
+            (event.whoClicked as? Player)?.let { this }
             if (button.skipGUIListenerCall) return
         }
 

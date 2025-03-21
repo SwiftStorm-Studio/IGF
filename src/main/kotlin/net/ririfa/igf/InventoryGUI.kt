@@ -163,6 +163,8 @@ abstract class InventoryGUI(
                 else -> throw IllegalStateException("Bro, how did you get here? This shouldn't happen. X")
             }
         }
+
+        if (size == null) size = igfInventory!!.size
     }
 
     /**
